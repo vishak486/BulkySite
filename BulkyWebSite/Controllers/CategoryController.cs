@@ -23,14 +23,10 @@ namespace BulkyWebSite.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())
-            {
-                ModelState.AddModelError("name", "The DisplayOrder and Name cannot be Same");
-            }
-            if (obj.Name.ToLower() == "test")
-            {
-                ModelState.AddModelError("", "test is a Invalid Value");
-            }
+            //if (obj.Name == obj.DisplayOrder.ToString())
+            //{
+            //    ModelState.AddModelError("name", "The DisplayOrder and Name cannot be Same");
+            //}
             if (ModelState.IsValid)
             {
                 _db.Categories.Add(obj);
@@ -39,6 +35,35 @@ namespace BulkyWebSite.Controllers
             }
             return View();
             
+        }
+
+        public IActionResult Edit(int ? id)
+        {
+            if (id == null || id == 0)
+            { 
+                return NotFound();
+            }
+            Category ? categoryFromDb = _db.Categories.Find(id);
+            //Category? categoryFromDb1 = _db.Categories.FirstOrDefault(c=>c.Id==id);
+            //Category? categoryFromDb2 = _db.Categories.Where(c=>c.Id==id).FirstOrDefault();
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(categoryFromDb);
+        }
+        [HttpPost]
+        public IActionResult Edit(Category obj)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+
         }
     }
 }
