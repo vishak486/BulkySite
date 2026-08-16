@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BulkyWebSite.Data;
+using Bulky.Models;
 
 namespace BulkyWebSite.Areas.Identity.Pages.Account.Manage;
 

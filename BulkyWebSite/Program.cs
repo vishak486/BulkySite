@@ -2,7 +2,7 @@ using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Respositary;
 using Bulky.DataAccess.Respositary.IRepositary;
 using Microsoft.EntityFrameworkCore;
-using BulkyWebSite.Data;
+using Bulky.Models;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);

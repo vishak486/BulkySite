@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using BulkyWebSite.Data;
+using Bulky.Models;
 
 namespace BulkyWebSite.Areas.Identity.Pages.Account.Manage;
 
