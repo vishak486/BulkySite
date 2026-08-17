@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Bulky.Models;
+using Bulky.Utility;
 
 namespace BulkyWebSite.Areas.Identity.Pages.Account;
 
@@ -25,6 +26,7 @@ public class RegisterModel : PageModel
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<ApplicationUser> _roleManager;
     private readonly IUserStore<ApplicationUser> _userStore;
     private readonly IUserEmailStore<ApplicationUser> _emailStore;
     private readonly ILogger<RegisterModel> _logger;
@@ -33,10 +35,12 @@ public class RegisterModel : PageModel
     public RegisterModel(
         UserManager<ApplicationUser> userManager,
         IUserStore<ApplicationUser> userStore,
+        RoleManager<ApplicationUser> roleManager,
         SignInManager<ApplicationUser> signInManager,
         ILogger<RegisterModel> logger,
         IEmailSender emailSender)
     {
+        _roleManager = roleManager;
         _userManager = userManager;
         _userStore = userStore;
         _emailStore = GetEmailStore();
@@ -102,6 +106,10 @@ public class RegisterModel : PageModel
 
     public async Task OnGetAsync(string? returnUrl = null)
     {
+        if(!_roleManager.RoleExistsAsync(SD.Role_User_Cust).GetAwaiter().GetResult())
+        {
+            _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Cust)).GetAwaiter().GetResult();
+        }
         ReturnUrl = returnUrl;
         ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
     }
