@@ -1,3 +1,7 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 @{
     if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
     {
@@ -8,7 +12,8 @@
         Layout = "/Views/Shared/_Layout.cshtml";
     }
 }
-
+@if (ViewContext.RouteData.Values["page"]?.ToString()?.StartsWith("/Account/Manage") == true)
+{
 <h1>Manage your account</h1>
 
 <div>
@@ -16,13 +21,21 @@
     <hr />
     <div class="row">
         <div class="col-md-3">
-            <partial name="_ManageNav" />
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <partial name="_ManageNav" />
+            }
         </div>
         <div class="col-md-9">
             @RenderBody()
         </div>
     </div>
 </div>
+}
+else
+{
+    @RenderBody()
+}
 
 @section Scripts {
     @RenderSection("Scripts", required: false)
